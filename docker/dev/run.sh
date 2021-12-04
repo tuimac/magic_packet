@@ -2,7 +2,7 @@
 
 # Change variables below if you need
 ##############################
-NAME="servertools"
+NAME="magic_packet"
 DOCKERHUBUSER="tuimac"
 IMAGE=${DOCKERHUBUSER}/${NAME}
 ##############################
@@ -11,7 +11,6 @@ function runContainer(){
     docker run -itd --name ${NAME} \
             -h ${NAME} \
             -p "80:80" \
-            -p "3000:3000" \
             ${NAME}
 }
 

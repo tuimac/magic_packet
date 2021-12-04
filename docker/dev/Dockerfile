@@ -21,7 +21,7 @@ RUN apk update && \
     git clone https://github.com/tuimac/magic_packet && \
     git config --global user.email "tuimac.devadm01@gmail.com" && \
     git config --global user.name "tuimac" && \
-    cd servertools/src/frontend && \
+    cd magic_packet/src/frontend && \
     npm install
 
 ENTRYPOINT ["/root/entrypoint.sh"]
