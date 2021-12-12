@@ -16,10 +16,16 @@ def sendPacket(packet):
     sock.sendto(packet, ('255.255.255.255', 7))
 
 def confirmWakeup():
+    def checksum():
+        header = struct.pack('!BBHHH', 8, 0, 0, 1, 1)
+        checksum = int.from_bytes(header, 'big')
+        while checksum > 0xffff:
+            checksum = (checksum & 0xffff) + (checksum >> 16)
+        return ~checksum
+
     def createpacket():
-        ((8 << 8) << 16)
-        # RFC 1071
-        # https://momijiame.tumblr.com/post/81171504423/python-%E3%81%AE-raw-%E3%82%BD%E3%82%B1%E3%83%83%E3%83%88%E3%81%A7-ping-%E3%82%92%E9%80%81%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B
+        header = struct.pack('!BBhHH', 8, 0, checksum(), 1, 1)
+        return header + b''
 
     def sendpacket(ip, packet):
         sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
@@ -27,7 +33,7 @@ def confirmWakeup():
         return sock.recv(512)
         
     packet = createpacket()
-    data = sendpacket('node-master', packet)
+    data = sendpacket('172.17.0.5', packet)
     print(data)
 
 if __name__ == '__main__':
