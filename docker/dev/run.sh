@@ -10,7 +10,7 @@ IMAGE=${DOCKERHUBUSER}/${NAME}
 function runContainer(){
     docker run -itd --name ${NAME} \
             -h ${NAME} \
-            -p "80:80" \
+            -p 80:80 \
             ${NAME}
 }
 

@@ -37,12 +37,10 @@ def confirmWakeup():
     print(data)
 
 if __name__ == '__main__':
-    '''
     if len(sys.argv) == 1:
         exit(1)
     macaddr = sys.argv[1]
     packet = createPacket(macaddr)
     sendPacket(packet)
-    '''
     confirmWakeup()
 

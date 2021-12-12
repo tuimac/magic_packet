@@ -21,6 +21,8 @@ RUN apk update && \
     git clone https://github.com/tuimac/magic_packet && \
     git config --global user.email "tuimac.devadm01@gmail.com" && \
     git config --global user.name "tuimac" && \
+    curl -L https://raw.githubusercontent.com/tuimac/tools/master/git/setup.sh -o setup.sh && \
+    chmod +x setup.sh && \
     cd magic_packet/src/frontend && \
     npm install
 
