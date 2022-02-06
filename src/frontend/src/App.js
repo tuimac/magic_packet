@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Runcommand from './components/Runcommand';
 import Layout from './components/Layout';
 
 class App extends React.Component {
@@ -16,10 +15,9 @@ class App extends React.Component {
             <div>
               <Switch>
                 <Route exact path="/">
-                  <Redirect to="/home" />
+                  <Redirect to="/" />
                 </Route>
-                <Route component={ Home } path="/home" exact />
-                <Route component={ Runcommand } path="/runcommand" exact />
+                <Route component={ Home } path="/" exact />
               </Switch>
             </div>
           </div>
