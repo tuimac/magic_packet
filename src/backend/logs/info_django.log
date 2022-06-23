@@ -10,3 +10,9 @@ Watching for file changes with StatReloader
 Source log file: /usr/lib/python3.9/site-packages/django/utils/autoreload.py line: 643
 
 Watching for file changes with StatReloader
+----------------------------------------------------------------------------------------------------
+[INFO] - 2022-06-23 11:21:51,672
+
+Source log file: /usr/lib/python3.10/site-packages/django/utils/autoreload.py line: 677
+
+Watching for file changes with StatReloader
