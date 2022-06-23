@@ -13,10 +13,10 @@ class SendPacketAPIViews(views.APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            macaddr = request.data
-            logger.error(macaddr)
+            if not 'macaddr' in request.data:
+                return Response('', status=status.HTTP_400_BAD_REQUEST)
             sendpacket = SendPacket()
-            response = sendpacket.sendpacket(macaddr)
+            response = sendpacket.sendpacket(request.data['macaddr'])
             return Response(response, status=status.HTTP_200_OK)
         except:
             logger.error(traceback.format_exc())
