@@ -22,6 +22,9 @@ RUN apk update && \
     git clone https://github.com/tuimac/magic_packet && \
     git config --global user.email "tuimac.devadm01@gmail.com" && \
     git config --global user.name "tuimac" && \
+    curl -L https://raw.githubusercontent.com/tuimac/tools/master/git/setup.sh -o setup.sh && \
+    chmod +x setup.sh && \
+    cp magic_packet/git/pre-commit magic_packet/.git/hook/pre-commit && \
     mkdir /var/log/gunicorn && \
     touch /var/log/gunicorn/access.log && \
     touch /var/log/gunicorn/error.log && \

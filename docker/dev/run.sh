@@ -10,6 +10,7 @@ IMAGE=${DOCKERHUBUSER}/${NAME}
 function runContainer(){
     docker run -itd --name ${NAME} \
             -h ${NAME} \
+            -v $(pwd)/upload:/upload \
             -p 80:80 \
             ${NAME}
 }
