@@ -33,14 +33,16 @@ def confirmWakeup():
         return sock.recv(512)
         
     packet = createpacket()
-    data = sendpacket('172.17.0.5', packet)
+    data = sendpacket('172.17.0.2', packet)
     print(data)
 
 if __name__ == '__main__':
+    '''
     if len(sys.argv) == 1:
         exit(1)
     macaddr = sys.argv[1]
     packet = createPacket(macaddr)
     sendPacket(packet)
+    '''
     confirmWakeup()
 

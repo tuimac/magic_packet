@@ -2,11 +2,6 @@ import json
 import logging
 import traceback
 import socket
-import subprocess
-from multiprocessing import cpu_count
-import time
-import sys
-from threading import Thread
 import struct
 
 logger = logging.getLogger("django")
@@ -28,5 +23,5 @@ class SendPacket:
             return self.response
         except:
             logger.error(traceback.format_exc())
-            self.response['result'] = 'failed'
+            self.response['result'] = 'Runtime error'
             return self.response
