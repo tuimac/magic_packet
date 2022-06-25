@@ -17,14 +17,15 @@ def sendPacket(packet):
 
 def confirmWakeup():
     def checksum():
-        header = struct.pack('!BBHHH', 8, 0, 0, 1, 1)
+        header = struct.pack('!BBhHH', 8, 0, 0, 1, 1)
         checksum = int.from_bytes(header, 'big')
         while checksum > 0xffff:
             checksum = (checksum & 0xffff) + (checksum >> 16)
         return ~checksum
 
     def createpacket():
-        header = struct.pack('!BBhHH', 8, 0, checksum(), 1, 1)
+        csum = checksum()
+        header = struct.pack('!BBhHH', 8, 0, csum, 1, 1)
         return header + b''
 
     def sendpacket(ip, packet):
@@ -33,8 +34,26 @@ def confirmWakeup():
         return sock.recv(512)
         
     packet = createpacket()
-    data = sendpacket('172.17.0.2', packet)
+    data = sendpacket('8.8.8.8', packet)
+    
+    print(data[20:28])
     print(data)
+    msg_type, msg_code, msg_checksum, msg_id, msg_seq_num = struct.unpack('!BBhHH', data[20:28])
+    print('msg_type: ' + str(msg_type))
+    print('msg_code: ' + str(msg_code))
+    print('msg_checksum: ' + str(msg_checksum))
+    print('msg_id: ' + str(msg_id))
+    print('msg_seq_num: ' + str(msg_seq_num))
+
+    print('######################################################3')
+    print(packet)
+    msg_type, msg_code, msg_checksum, msg_id, msg_seq_num = struct.unpack('!BBhHH', packet)
+    print('msg_type: ' + str(msg_type))
+    print('msg_code: ' + str(msg_code))
+    print('msg_checksum: ' + str(msg_checksum))
+    print('msg_id: ' + str(msg_id))
+    print('msg_seq_num: ' + str(msg_seq_num))
+
 
 if __name__ == '__main__':
     '''
