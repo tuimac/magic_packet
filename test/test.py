@@ -35,7 +35,21 @@ def confirmWakeup():
         
     packet = createpacket()
     data = sendpacket('8.8.8.8', packet)
-    
+
+    print('######################################################3')
+    print(data[:20])
+    version, service, length, msg_id, offset, ttl, protocol, checksum, src_ip, dst_ip = struct.unpack('!BBHHHBBHII', data[:20])
+    print('version: ' + str(version))
+    print('service: ' + str(service))
+    print('length: ' + str(length))
+    print('msg_id: ' + str(msg_id))
+    print('msg_seq_num: ' + str(msg_seq_num))
+    print('msg_seq_num: ' + str(msg_seq_num))
+    print('msg_seq_num: ' + str(msg_seq_num))
+    print('msg_seq_num: ' + str(msg_seq_num))
+
+    print('######################################################3')
+   
     print(data[20:28])
     print(data)
     msg_type, msg_code, msg_checksum, msg_id, msg_seq_num = struct.unpack('!BBhHH', data[20:28])
