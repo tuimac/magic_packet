@@ -26,8 +26,19 @@ class Ping:
             sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
             sock.settimeout(10)
             sock.sendto(packet, (ip, 0))
-            res = sock.recv(512)
-            self.response['result'] = res
+            reply = sock.recv(512)
+
+            # Extract packet data from echo reply
+            msg_type, msg_code, msg_checksum, msg_id, msg_seq_num = struct.unpack('!BBhHH', reply[20:28])
+            self.response['packet'] = dict()
+            self.response['packet']['type'] = msg_type
+            self.response['packet']['code'] = msg_code
+            self.response['packet']['checksum'] = msg_checksum
+            self.response['packet']['id'] = msg_id
+            self.response['packet']['sequence_number'] = msg_seq_num
+
+            self.response['result'] = 'success'
+            return self.response
         except TimeoutError:
             logger.error(traceback.format_exc())
             self.response['result'] = 'Timeout'
