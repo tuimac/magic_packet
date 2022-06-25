@@ -7,7 +7,7 @@ EXPOSE 8000
 
 ADD requirements.txt /root/requirements.txt
 ADD nginx.conf /etc/nginx/nginx.conf
-ADD gunicorn.conf /etc/gunicorn/gunicorn.conf
+ADD gunicorn.conf.py /etc/gunicorn/gunicorn.conf.py
 ADD entrypoint.sh /root/entrypoint.sh
 
 RUN apk update && \
