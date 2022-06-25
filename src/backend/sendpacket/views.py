@@ -16,8 +16,8 @@ class SendPacketAPIViews(views.APIView):
             if not 'macaddr' in request.data:
                 return Response('', status=status.HTTP_400_BAD_REQUEST)
             sendpacket = SendPacket()
-            response = sendpacket.sendpacket(request.data['macaddr'])
-            return Response(response, status=status.HTTP_200_OK)
+            result = sendpacket.sendpacket(request.data['macaddr'])
+            return Response(result, status=status.HTTP_200_OK)
         except:
             logger.error(traceback.format_exc())
-            return Response(response, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response('{"result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
