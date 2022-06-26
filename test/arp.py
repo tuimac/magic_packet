@@ -42,12 +42,17 @@ def get_interface_info(interface: str) -> dict:
 def arp_request(interface, dest_ip):
     # Create L2 socket
     sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
+    sock.settimeout(5)
     sock.bind((interface, 0))
     if_info = get_interface_info(interface)
 
     # Create request datagram
     packet = struct.pack('!HHBBH6s4s6s4s', 1, 0x0806, 6, 4, 1, if_info['mac'], if_info['ip'], bytes(0), encode_ipaddr(dest_ip))
-    sock.send(packet)
+    header = struct.pack('!6s6sH', encode_ipaddr(dest_ip), if_info['ip'], 0x0806)
+    sock.send(header + packet)
+    data = sock.recv(512)
+    print(data)
+    sock.close()
 
 if __name__ == '__main__':
-    arp_request('eth0', '10.0.222.6')
+    arp_request('eth0', '0.0.0.0')
