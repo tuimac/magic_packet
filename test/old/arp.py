@@ -55,4 +55,4 @@ def arp_request(interface, dest_ip):
     sock.close()
 
 if __name__ == '__main__':
-    arp_request('eth0', '0.0.0.0')
+    arp_request('eth0', '10.0.222.6')

@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  Card,
-  Container,
-  Row,
-  Col
+  Container
 } from 'react-bootstrap';
+import { API_URL } from '../config/config';
 
 class Home extends React.Component {
 
@@ -16,9 +14,11 @@ class Home extends React.Component {
   }
 
   render() {
+    console.log(API_URL);
     return(
       <>
         <Container>
+          
         </Container>
       </>
     );

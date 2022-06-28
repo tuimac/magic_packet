@@ -1,9 +1,7 @@
 import React from 'react';
 import {
-  Card,
-  Container,
-  Row,
-  Col
+  Navbar,
+  Nav
 } from 'react-bootstrap';
 
 class Layout extends React.Component {
@@ -18,8 +16,9 @@ class Layout extends React.Component {
   render() {
     return(
       <>
-        <Container>
-        </Container>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="/" style={{ marginLeft: 15 }}>Magic Packet</Navbar.Brand>
+        </Navbar>
       </>
     );
   };

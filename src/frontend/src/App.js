@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Layout from './components/Layout';
+import Layout from './layouts/Layout';
 
 class App extends React.Component {
   
   render() {
     return (
-			<>
+      <>
         <BrowserRouter>
           <div>
             <Layout/>
