@@ -36,22 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.card {
-  margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 20px;
-  height: auto;
-  width: auto;
-}
-
-.container {
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#terminal-container .terminal.xterm {
-  height: 100%;
-}
