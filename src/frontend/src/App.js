@@ -1,23 +1,26 @@
+import React from 'react';
 import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
 import Home from './components/Home';
 
 class App extends React.Component {
-  return (
-		<>
-      <BrowserRouter>
-        <div>
-          <HomeLayout/>
+  render() { 
+    return (
+      <>
+        <BrowserRouter>
           <div>
-            <Switch>
-              <Route component={ Home } path="/" exact />
-            </Switch>
+            <HomeLayout/>
+            <div>
+              <Routes>
+                <Route component={ Home } path="/" exact />
+              </Routes>
+            </div>
           </div>
-        </div>
-      </BrowserRouter>
-    </>
-  );
+        </BrowserRouter>
+      </>
+    );
+  }
 }
 
 export default App;
