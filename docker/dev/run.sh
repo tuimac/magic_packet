@@ -12,6 +12,7 @@ function runContainer(){
             -h ${NAME} \
             -v $(pwd)/upload:/upload \
             -p 80:80 \
+            -p 3000:3000 \
             ${NAME}
 }
 
