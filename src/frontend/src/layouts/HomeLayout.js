@@ -10,32 +10,40 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Link from '@mui/material/Link';
 
 class HomeLayout extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      sidebar: true
+      sidebar: false
+    }
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.list = this.list.bind(this);
+  }
+
+  toggleDrawer(event, bar_state) {
+    if(event.type === 'click' ) {
+      console.log(bar_state);
+      this.setState({ sidebar: bar_state });
+    } else {
+      return
     }
   }
 
-  toggleDrawer = () => {
-    this.setState({ sidebar: !this.state.sidebar });
-  }
-
-  list = () => {
+  list() {
     return(
-      <Box width='100' role='presentation' onClick={ this.toggleDrawer() } onKeyDown={ this.toggleDrawer() }>
+      <Box width='100' role='presentation'>
         <List>
-          <ListItem key='Magic Packet' disablePaddig>
+          <ListItem key='Magic Packet'>
             <ListItemButton>
               <ListItemText primary='Magic Packet' />
             </ListItemButton>
           </ListItem>
         </List>
       </Box>
-    ) 
+    ); 
   }
 
   render() {
@@ -43,14 +51,16 @@ class HomeLayout extends React.Component {
       <>
         <AppBar position="static">
           <Toolbar variant="dense">
-            <IconButton onClick={ this.toggleDrawer() } edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+            <IconButton onClick={(e) => this.toggleDrawer(e, true) } edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
               <MenuIcon />
             </IconButton>
-            <Drawer anchor='left' open={ this.state.sidebar } onClose={ this.toggleDrawer() }>
+            <Drawer anchor='left' open={ this.state.sidebar } onClose={(e) => this.toggleDrawer(e, false) }>
               { this.list() }
             </Drawer>
-            <Typography variant="h6" color="inherit" component="div">
-              Magic Packet
+            <Typography variant="h6" color="inherit" to="/" component={ Link } underline='none'>
+              <Link href="/" underline="none" color="white">
+                Magic Packet
+              </Link>
             </Typography>
           </Toolbar>
         </AppBar>

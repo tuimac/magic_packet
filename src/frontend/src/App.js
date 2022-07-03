@@ -11,11 +11,9 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             <HomeLayout/>
-            <div>
-              <Routes>
-                <Route component={ Home } path="/" exact />
-              </Routes>
-            </div>
+            <Routes>
+              <Route component={ Home } path="/" exact />
+            </Routes>
           </div>
         </BrowserRouter>
       </>
