@@ -4,14 +4,14 @@ import socket
 import struct
 import fcntl
 
-def encode_ipaddr(ipaddr: str) -> str:
+def encode_ipaddr(ipaddr: str) -> bytes:
     result = 0
     octets = ipaddr.split('.')
     for i in range(0, 4):
         result += int(octets[i]) << (len(octets) - i - 1) * 8
-    return bytes(result)
+    return result.to_bytes(4, 'big')
 
-def encode_macaddr(macaddr: str) -> str:
+def encode_macaddr(macaddr: str) -> bytes:
     result = 0
     octets = []
     if '-' in macaddr:
@@ -20,7 +20,7 @@ def encode_macaddr(macaddr: str) -> str:
         octets = macaddr.split(':')
     for i in range(0, 6):
         result += int(octets[i], 16) << (len(octets) - i - 1) * 8
-    return result
+    return result.to_bytes(6, 'big')
 
 def get_ip(interface: str) -> str:
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -45,14 +45,17 @@ def arp_request(interface, dest_ip):
     sock.settimeout(5)
     sock.bind((interface, 0))
     if_info = get_interface_info(interface)
-
+    print(encode_ipaddr(dest_ip))
+    print(encode_macaddr('ff:ff:ff:ff:ff:ff'))
+    
     # Create request datagram
-    packet = struct.pack('!HHBBH6s4s6s4s', 1, 0x0806, 6, 4, 1, if_info['mac'], if_info['ip'], bytes(0), encode_ipaddr(dest_ip))
+    packet = struct.pack('!HHBBH6s4s6s4s', 0x0001, 0x0800, 0x06, 0x04, 0x0001, if_info['mac'], if_info['ip'], encode_macaddr('00:00:00:00:00:00'), encode_ipaddr(dest_ip))
     header = struct.pack('!6s6sH', encode_ipaddr(dest_ip), if_info['ip'], 0x0806)
+    print(len(header + packet))
     sock.send(header + packet)
     data = sock.recv(512)
     print(data)
     sock.close()
 
 if __name__ == '__main__':
-    arp_request('eth0', '10.0.222.6')
+    arp_request('br0', '10.0.222.7')
