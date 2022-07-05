@@ -57,7 +57,7 @@ class HomeLayout extends React.Component {
             <Drawer anchor='left' open={ this.state.sidebar } onClose={(e) => this.toggleDrawer(e, false) }>
               { this.list() }
             </Drawer>
-            <Typography variant="h6" color="inherit" to="/" component={ Link } underline='none'>
+            <Typography variant="h6" color="inherit" underline='none'>
               <Link href="/" underline="none" color="white">
                 Magic Packet
               </Link>
