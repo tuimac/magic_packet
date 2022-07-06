@@ -41,20 +41,20 @@ def get_interface_info(interface: str) -> dict:
 
 def arp_request(interface, dest_ip):
     # Create L2 socket
-    sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
+    sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
     sock.settimeout(5)
     sock.bind((interface, 0))
     if_info = get_interface_info(interface)
     print(encode_ipaddr(dest_ip))
-    print(encode_macaddr('ff:ff:ff:ff:ff:ff'))
+    print(if_info['mac'])
     
     # Create request datagram
-    packet = struct.pack('!HHBBH6s4s6s4s', 0x0001, 0x0800, 0x06, 0x04, 0x0001, if_info['mac'], if_info['ip'], encode_macaddr('00:00:00:00:00:00'), encode_ipaddr(dest_ip))
+    packet = struct.pack('!HHBBH6s4s6s4s', 0x0001, 0x0800, 0x06, 0x04, 0x0001, if_info['mac'], if_info['ip'], encode_macaddr('ff:ff:ff:ff:ff:ff'), encode_ipaddr(dest_ip))
     header = struct.pack('!6s6sH', encode_ipaddr(dest_ip), if_info['ip'], 0x0806)
-    print(len(header + packet))
     sock.send(header + packet)
-    data = sock.recv(512)
-    print(data)
+    data = sock.recvfrom(2048)
+    print(data[0])
+    print(len(data[0]))
     sock.close()
 
 if __name__ == '__main__':
