@@ -30,6 +30,19 @@ RUN apk update && \
     touch /var/log/gunicorn/access.log && \
     touch /var/log/gunicorn/error.log && \
     cd magic_packet/src/frontend && \
-    npm install
+    npm install && \
+
+    echo $'\n\
+echo -en "\e[1m\e[34m" \n\
+cat << "EOF" \n\
+\n\
+    __  ___            _      ____             __        __ \n\
+   /  |/  /___ _____ _(_)____/ __ \____ ______/ /_____  / /_\n\
+  / /|_/ / __ `/ __ `/ / ___/ /_/ / __ `/ ___/ //_/ _ \/ __/\n\
+ / /  / / /_/ / /_/ / / /__/ ____/ /_/ / /__/ ,< /  __/ /_  \n\
+/_/  /_/\__,_/\__, /_/\___/_/    \__,_/\___/_/|_|\___/\__/\n\
+             /____/                                       \n\
+  \n\
+EOF' >> /root/.bashrc
 
 ENTRYPOINT ["/root/entrypoint.sh"]
