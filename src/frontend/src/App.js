@@ -10,9 +10,6 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
-  backgroud: {
-    default: '#404040',
-  },
 });
 
 class App extends React.Component {
