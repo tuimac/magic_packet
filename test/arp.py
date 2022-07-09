@@ -3,6 +3,7 @@
 import socket
 import struct
 import fcntl
+import time
 
 def encode_ipaddr(ipaddr: str) -> bytes:
     result = 0
@@ -51,11 +52,19 @@ def arp_request(interface, dest_ip):
     # Create request datagram
     packet = struct.pack('!HHBBH6s4s6s4s', 0x0001, 0x0800, 0x06, 0x04, 0x0001, if_info['mac'], if_info['ip'], encode_macaddr('ff:ff:ff:ff:ff:ff'), encode_ipaddr(dest_ip))
     header = struct.pack('!6s6sH', encode_ipaddr(dest_ip), if_info['ip'], 0x0806)
+    print(len(packet))
     sock.send(header + packet)
     data = sock.recvfrom(2048)
-    print(data[0])
-    print(len(data[0]))
+    print(data)
+    time.sleep(3)
     sock.close()
+    return data[0][48:76]
+
+def format_data(data: bytes):
+    print(len(data))
+    print(data)
+    print(struct.unpack('!HHBBH6s4s6s4s', data))
 
 if __name__ == '__main__':
-    arp_request('br0', '10.0.222.7')
+    data = arp_request('br0', '10.0.222.7')
+    format_data(data)
