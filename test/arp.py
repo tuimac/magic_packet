@@ -36,6 +36,7 @@ def get_macaddr(interface: str) -> str:
 def get_interface_info(interface: str) -> dict:
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     info = dict()
+    print(int.from_bytes(fcntl.ioctl(sock.fileno(), 0x8915, struct.pack('256s', interface.encode()))[20:24], 'big'))
     info['ip'] = fcntl.ioctl(sock.fileno(), 0x8915, struct.pack('256s', interface.encode()))[20:24]
     info['mac'] = fcntl.ioctl(sock.fileno(), 0x8927,  struct.pack('256s', interface.encode()))[18:24]
     return info
@@ -51,12 +52,11 @@ def arp_request(interface, dest_ip):
     
     # Create request datagram
     packet = struct.pack('!HHBBH6s4s6s4s', 0x0001, 0x0800, 0x06, 0x04, 0x0001, if_info['mac'], if_info['ip'], encode_macaddr('ff:ff:ff:ff:ff:ff'), encode_ipaddr(dest_ip))
-    header = struct.pack('!6s6sH', encode_ipaddr(dest_ip), if_info['ip'], 0x0806)
+    header = struct.pack('!6s6sH', encode_macaddr('ff:ff:ff:ff:ff:ff'), if_info['mac'], 0x0806)
     print(len(packet))
     sock.send(header + packet)
     data = sock.recvfrom(2048)
     print(data)
-    time.sleep(3)
     sock.close()
     return data[0][48:76]
 
