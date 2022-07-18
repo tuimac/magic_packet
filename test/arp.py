@@ -27,7 +27,7 @@ def decode_ipaddr(ipaddr: bytes) -> str:
     return '.'.join([str(octet) for octet in struct.unpack('!BBBB', ipaddr)])
 
 def decode_macaddr(macaddr: bytes) -> str:
-    return ':'.join([format(octet, 'x') for octet in struct.unpack('!BBBBBB', macaddr)])
+    return ':'.join([format(octet, 'x').rjust(2, '0') for octet in struct.unpack('!BBBBBB', macaddr)])
 
 def get_ip(interface: str) -> str:
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -81,5 +81,5 @@ def format_data(data: bytes):
     print('Destination IpAddress: ' + decode_ipaddr(dst_ip))
 
 if __name__ == '__main__':
-    data = arp_request('br0', '10.0.222.7')
+    data = arp_request('lo', '127.0.0.2')
     format_data(data)
