@@ -11,7 +11,7 @@ class Arp:
     def __init__(self):
         self.response = dict()
 
-    def
+    def 
 
     def _sendArp(self, ip: str):
         sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
