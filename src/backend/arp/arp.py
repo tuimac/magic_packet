@@ -10,14 +10,13 @@ logger = logging.getLogger("django")
 class Arp:
     def __init__(self):
         self.response = dict()
-
-    def 
+        sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
+        sock.settimeout(5)
+        sock.bind((interface, 0))
 
     def _sendArp(self, ip: str):
-        sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
-        sock.settimeout(5)        
 
-    def scanAll(self):
+    def scanAll(self) -> dict:
         try:
             
         except TimeoutError:
@@ -29,7 +28,7 @@ class Arp:
             self.response['result'] = 'Runtime error'
             return self.response
 
-    def ping(self, ip: str):
+    def ping(self, ip: str) -> dict:
         try:
 
         except TimeoutError:

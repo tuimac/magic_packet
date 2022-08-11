@@ -81,5 +81,5 @@ def format_data(data: bytes):
     print('Destination IpAddress: ' + decode_ipaddr(dst_ip))
 
 if __name__ == '__main__':
-    data = arp_request('lo', '127.0.0.2')
+    data = arp_request('br0', '10.0.222.4')
     format_data(data)
