@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'sendpacket',
     'ping',
     'arp',
-    'utils'
+    'utils',
+    'exceptions'
 ]
 
 MIDDLEWARE = [

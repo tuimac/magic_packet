@@ -4,7 +4,7 @@ import traceback
 import socket
 import struct
 import fcntl
-from ..utils.net import Net
+from utils.net import Net
 
 logger = logging.getLogger("django")
 

@@ -1,6 +1,7 @@
 import struct
 import socket
 import fcntl
+from exceptions.default import MacAddressFormatException
 
 class Net:
     @staticmethod
@@ -28,7 +29,7 @@ class Net:
         elif ':' in macaddr:
             octets = macaddr.split(':')
         else:
-            raise Exception('The delimiter of macaddress should be ":" or "-".')
+            raise MacAddressFormatException
         for i in range(0, 6):
             result += int(octets[i], 16) << (len(octets) - i - 1) * 8
         return result.to_bytes(6, 'big')
