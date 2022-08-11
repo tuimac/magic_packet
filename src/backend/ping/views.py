@@ -11,14 +11,14 @@ class PingAPIViews(views.APIView):
 
     renderer_classes = [JSONRenderer]
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
-            if not 'ip' in request.data:
-                return Response('', status=status.HTTP_400_BAD_REQUEST)
+            if self.kwargs.get('ip') == None:
+                return Response('{"code": "2", "result": "Need the target IP."}', status=status.HTTP_400_BAD_REQUEST)
             ping = Ping()
-            result = ping.sendpacket(request.data['ip'])
+            result = ping.sendpacket(self.kwargs.get('ip'))
             logger.error(result)
             return Response(result, status=status.HTTP_200_OK)
         except:
             logger.error(traceback.format_exc())
-            return Response('{"result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response('{"code": "1", "result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
