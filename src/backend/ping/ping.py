@@ -3,6 +3,7 @@ import logging
 import traceback
 import socket
 import struct
+import datetime
 
 logger = logging.getLogger("django")
 
@@ -25,6 +26,7 @@ class Ping:
             # Send ICMP packet
             sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
             sock.settimeout(10)
+            self.response['timestamp'] = datetime.datetime.now()
             sock.sendto(packet, (ip, 0))
             reply = sock.recv(512)
 

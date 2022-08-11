@@ -13,11 +13,11 @@ class PingAPIViews(views.APIView):
 
     def get(self, request, *args, **kwargs):
         try:
+            logger.info(self.kwargs)
             if self.kwargs.get('ip') == None:
                 return Response('{"code": "2", "result": "Need the target IP."}', status=status.HTTP_400_BAD_REQUEST)
             ping = Ping()
             result = ping.sendpacket(self.kwargs.get('ip'))
-            logger.error(result)
             return Response(result, status=status.HTTP_200_OK)
         except:
             logger.error(traceback.format_exc())
