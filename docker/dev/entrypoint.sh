@@ -3,7 +3,12 @@
 BASE_DIR='/root'
 
 cd $BASE_DIR
-git clone https://github.com/tuimac/magic_packet
+if [ -e magic_packet ]; then
+    cd magic_packet
+    git pull
+else
+    git clone https://github.com/tuimac/magic_packet
+fi
 
 cd ${BASE_DIR}/magic_packet/src/frontend
 npm ci
