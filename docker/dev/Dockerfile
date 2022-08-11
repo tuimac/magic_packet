@@ -27,7 +27,8 @@ RUN apk update && \
     mkdir /var/log/gunicorn && \
     touch /var/log/gunicorn/access.log && \
     touch /var/log/gunicorn/error.log && \
-    touch /var/log/django/django_info && \
+    mkdir /var/log/django && \
+    touch /var/log/django/django_info.log && \
     echo $'\n\
 echo -en "\e[1m\e[34m" \n\
 cat << "EOF" \n\

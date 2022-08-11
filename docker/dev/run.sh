@@ -24,7 +24,6 @@ function cleanup(){
 function createContainer(){
     docker build -t ${NAME} . --no-cache
     runContainer
-    cleanup
 }
 
 function rerunContainer(){
