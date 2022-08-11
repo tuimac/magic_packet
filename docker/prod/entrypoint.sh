@@ -15,6 +15,6 @@ npm ci
 npm start &
 
 cd $BASE_DIR/magic_packet/src/backend
-manage.py runserver 0:8000 &
+gunicorn -c /etc/gunicorn/gunicorn.conf.py &
 
 /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/nginx.conf
