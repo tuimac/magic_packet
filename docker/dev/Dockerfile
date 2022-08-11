@@ -22,16 +22,12 @@ RUN apk update && \
  	rm /etc/vim/vimrc && \
     curl -L https://raw.githubusercontent.com/tuimac/tools/master/vim/vimrc -o /etc/vim/vimrc && \
     curl -L https://raw.githubusercontent.com/tuimac/tools/master/linux/bashrc/.bashrc_node_docker -o /root/.bashrc && \
-    git clone https://github.com/tuimac/magic_packet && \
     curl -L https://raw.githubusercontent.com/tuimac/tools/master/git/setup.sh -o setup.sh && \
     chmod +x setup.sh && \
-    cp magic_packet/git/pre-commit magic_packet/.git/hooks/pre-commit && \
     mkdir /var/log/gunicorn && \
     touch /var/log/gunicorn/access.log && \
     touch /var/log/gunicorn/error.log && \
-    cd magic_packet/src/frontend && \
-    npm install && \
-
+    touch /var/log/django/django_info && \
     echo $'\n\
 echo -en "\e[1m\e[34m" \n\
 cat << "EOF" \n\
