@@ -153,7 +153,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': "/var/log/django/django_info.log"),
+            'filename': "/var/log/django/django_info.log",
             'maxBytes': 1024 * 1024 * 10,
             'formatter': 'file'
         },
