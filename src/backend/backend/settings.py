@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'sendpacket',
     'ping',
-    'arp'
+    'arp',
+    'utils'
 ]
 
 MIDDLEWARE = [

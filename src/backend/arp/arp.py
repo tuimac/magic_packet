@@ -4,6 +4,7 @@ import traceback
 import socket
 import struct
 import fcntl
+from ..utils.net import Net
 
 logger = logging.getLogger("django")
 
@@ -14,23 +15,10 @@ class Arp:
         sock.settimeout(5)
         sock.bind((interface, 0))
 
-    def _sendArp(self, ip: str):
-
-    def scanAll(self) -> dict:
+    def send(self, ip: str, interface: str) -> dict:
         try:
-            
-        except TimeoutError:
-            logger.error(traceback.format_exc())
-            self.response['result'] = 'Timeout'
-            return self.response
-        except:
-            logger.error(traceback.format_exc())
-            self.response['result'] = 'Runtime error'
-            return self.response
-
-    def ping(self, ip: str) -> dict:
-        try:
-
+            if interface == '':
+                interface = Net.
         except TimeoutError:
             logger.error(traceback.format_exc())
             self.response['result'] = 'Timeout'
