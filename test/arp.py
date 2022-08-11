@@ -54,6 +54,7 @@ def arp_request(interface: str, dest_ip: bytes) -> bytes:
     if_info = get_interface_info(interface)
     
     # Create request datagram
+    print(encode_macaddr('ff:ff:ff:ff:ff:ff'))
     header = struct.pack('!6s6sH', encode_macaddr('ff:ff:ff:ff:ff:ff'), if_info['mac'], 0x0806)
     packet = struct.pack('!HHBBH6s4s6s4s', 0x0001, 0x0800, 0x06, 0x04, 0x0001, if_info['mac'], if_info['ip'], encode_macaddr('ff:ff:ff:ff:ff:ff'), encode_ipaddr(dest_ip))
     sock.send(header + packet)
