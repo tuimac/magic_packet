@@ -59,7 +59,7 @@ class Arp:
                 0x04,
                 0x0001,
                 src_mac,
-                src_ip
+                src_ip,
                 b'\xff\xff\xff\xff\xff\xff',
                 dest_ip
             )
