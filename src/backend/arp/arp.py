@@ -36,7 +36,7 @@ class Arp:
         return
 
     # Send single arp packet to the target server
-    def send(self, dest_ip: str, interface=None, timeout=0.5) -> dict:
+    def sendpacket(self, dest_ip: str, interface=None, timeout=0.5) -> dict:
         try:
             # If Network interface name is not difined, get the default network interface name. 
             if interface is None:
@@ -61,14 +61,16 @@ class Arp:
                 src_mac,
                 src_ip,
                 b'\xff\xff\xff\xff\xff\xff',
-                dest_ip
+                Net.string_to_byte_ip(dest_ip)
             )
 
             # Send Arp packet
             self.sock.settimeout(timeout)
             self.sock.bind((interface, 0))
+            self.response['timestamp'] = datetime.datetime.now()
             self.sock.send(header + packet)
-            self._format_recv_packet()
+            data = self.sock.recvfrom(2048)
+            self._format_recv_packet(data)
             return self.response
         except TimeoutError:
             logger.error(traceback.format_exc())
