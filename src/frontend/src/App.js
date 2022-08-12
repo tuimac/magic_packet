@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
 import Home from './components/Home';
+import Scan from './components/Scan';
 import { ThemeProvider,  createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -23,6 +24,7 @@ class App extends React.Component {
             <HomeLayout />
             <Routes>
               <Route exact path="/" element={<Home />} />
+              <Route exact path="/scan"  element={<Scan />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

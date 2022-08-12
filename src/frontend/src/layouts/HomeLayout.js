@@ -24,7 +24,7 @@ class HomeLayout extends React.Component {
   }
 
   toggleDrawer(event, bar_state) {
-    if(event.type === 'click' ) {
+    if(event.type === 'click') {
       console.log(bar_state);
       this.setState({ sidebar: bar_state });
     } else {
@@ -37,8 +37,13 @@ class HomeLayout extends React.Component {
       <Box width='100' role='presentation'>
         <List>
           <ListItem key='Magic Packet'>
-            <ListItemButton>
+            <ListItemButton component={ Link } to='/'>
               <ListItemText primary='Magic Packet' />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key='Scan Devices'>
+            <ListItemButton component={ Link } to='/scan'>
+              <ListItemText primary='Scan Devices' />
             </ListItemButton>
           </ListItem>
         </List>
