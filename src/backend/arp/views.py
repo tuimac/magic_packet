@@ -13,17 +13,15 @@ class ArpAPIViews(views.APIView):
 
     def get(self, request, *args, **kwargs):
         try:
-            arp = Arp()
-            result = dict()
             if self.kwargs.get('ip') == None:
-                result = arp.sendpacket()
-                logger.error(result)
+                logger.error("There is no IP address in the query parameter.")
+                return Response('{"code": "3", "result": "Need the parameter."}', status=status.HTTP_400_BAD_REQUEST)
             else:
-                if self.kwargs.get('ip') == None:
-
-                result = arp.sendpacket(dest_ip=self.kwargs.get('ip'), interface=self.kwargs.get('interface'))
-                logger.error(result)
-            return Response(result, status=status.HTTP_200_OK)
+                arp = Arp()
+                interface = None
+                interface = self.kwargs.get('interface')
+                result = arp.sendpacket(dest_ip=self.kwargs.get('ip'), interface=interface)
+                return Response(result, status=status.HTTP_200_OK)
         except:
             logger.error(traceback.format_exc())
-            return Response('{"result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response('{"code": "2", "result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)

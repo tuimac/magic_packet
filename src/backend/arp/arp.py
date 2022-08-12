@@ -4,6 +4,7 @@ import traceback
 import socket
 import struct
 import fcntl
+import datetime
 from utils.net import Net
 
 logger = logging.getLogger("django")
@@ -14,17 +15,19 @@ class Arp:
         self.sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
 
     # Format the byte code data to dictionary
-    def _format_recv_packet(packet: bytes):
+    def _format_recv_packet(self, packet: bytes):
         self.response['result'] = 'success'
 
         # Format the header
         dest_mac, src_mac, ether_type = struct.unpack('!6s6sH', packet[:14])
+        self.response['header'] = dict()
         self.response['header']['dest_mac'] = Net.bytes_to_string_mac(dest_mac)
         self.response['header']['src_mac'] = Net.bytes_to_string_mac(src_mac)
         self.response['header']['ether_type'] = str(ether_type)
 
         # Format the body
         ht, pt, hal, pal, op, src_mac, src_ip, dest_mac, dest_ip = struct.unpack('!HHBBH6s4s6s4s', packet[14:42])
+        self.response['body'] = dict()
         self.response['body']['ht'] = str(ht)
         self.response['body']['pt'] = str(hex(pt))
         self.response['body']['hal'] = str(hal)
@@ -70,7 +73,7 @@ class Arp:
             self.response['timestamp'] = datetime.datetime.now()
             self.sock.send(header + packet)
             data = self.sock.recvfrom(2048)
-            self._format_recv_packet(data)
+            self._format_recv_packet(data[0])
             return self.response
         except TimeoutError:
             logger.error(traceback.format_exc())
