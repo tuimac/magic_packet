@@ -5,6 +5,7 @@ import logging
 import traceback
 import os
 from utils.net import Net
+from utils.replyformat import ReplyFormat
 
 logger = logging.getLogger("django")
 
@@ -44,7 +45,8 @@ class InterfaceInfoAPIViews(views.APIView):
             else:
                 result = dict()
                 info = Net.get_ip_from_if(self.kwargs.get('interface'))
-                result['ip'] = 
+                result['ip'] = Net.bytes_to_string_ip(info['ip'])
+                result['subnet'] = Net.bytes_to_string_ip(info['subnet'])
                 logger.info(result)
                 return Response(
                     ReplyFormat.status_200(result),
