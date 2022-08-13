@@ -5,12 +5,16 @@ class Scan extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      count: '',
-      owner: ''
+      hwip = {},
+      if_info = {}
     }
     this.sendArp = this.sendArp.bind(this);
+    this.getInterfaceInfo = this.getInterfaceInfo.bind(this);
   }  
+
+  getInterfaceInfo() [
+    
+  ]
 
   sendArp() {
     
@@ -19,7 +23,7 @@ class Scan extends React.Component {
   render() {
     return(
       <>
-
+        
       </>
     );
   };

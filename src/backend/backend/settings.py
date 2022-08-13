@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'ping',
     'arp',
     'utils',
-    'exceptions'
+    'exceptions',
+    'interface'
 ]
 
 MIDDLEWARE = [

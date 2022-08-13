@@ -11,7 +11,7 @@ class Ping:
     def __init__(self):
         self.response = dict()
 
-    def sendpacket(self, ip) -> dict():
+    def sendpacket(self, ip):
         try:
             # Generate checksum
             header = struct.pack('!BBHHH', 8, 0, 0, 1, 1)
