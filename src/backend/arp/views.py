@@ -2,6 +2,7 @@ from rest_framework import views, status
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from .arp import Arp
+from utils.replyformat import ReplyFormat
 import logging
 import traceback
 
@@ -14,14 +15,25 @@ class ArpAPIViews(views.APIView):
     def get(self, request, *args, **kwargs):
         try:
             if self.kwargs.get('ip') == None:
-                logger.error("There is no IP address in the query parameter.")
-                return Response('{"code": "3", "result": "Need the parameter."}', status=status.HTTP_400_BAD_REQUEST)
+                message = 'There is no IP address in the query parameter.'
+                logger.error(message)
+                return Response(
+                    ReplyFormat.status_400(message),
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             else:
-                arp = Arp()
-                interface = None
                 interface = self.kwargs.get('interface')
+                arp = Arp()
                 result = arp.sendpacket(dest_ip=self.kwargs.get('ip'), interface=interface)
-                return Response(result, status=status.HTTP_200_OK)
+                logger.info(result)
+                return Response(
+                    ReplyFormat.status_200(result),
+                    status=status.HTTP_200_OK
+                )
         except:
+            message = traceback.format_exc().splitlines()[-1]
             logger.error(traceback.format_exc())
-            return Response('{"code": "2", "result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                ReplyFormat.status_500(message),
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

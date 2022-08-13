@@ -31,7 +31,6 @@ class InterfaceInfoAPIViews(views.APIView):
                 return Response('{"code": "2", "result": "Need the NIC name."}', status=status.HTTP_400_BAD_REQUEST)
             result = dict()
             info = Net.get_ip_from_if(self.kwargs.get('interface'))
-            #result['ip'] = Net.
             return Response(result, status=status.HTTP_200_OK)
         except:
             logger.error(traceback.format_exc())
