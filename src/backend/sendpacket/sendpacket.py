@@ -19,9 +19,9 @@ class SendPacket:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             sock.sendto(packet, ('255.255.255.255', 7))
-            self.response['result'] = 'success'
+            self.response['magic_packet_result'] = 'success'
             return self.response
         except:
             logger.error(traceback.format_exc())
-            self.response['result'] = 'Runtime error'
+            self.response['magic_packet_result'] = 'Runtime error'
             return self.response

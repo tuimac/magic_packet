@@ -13,13 +13,20 @@ class InterfaceListAPIViews(views.APIView):
     renderer_classes = [JSONRenderer]
 
     def get(self, request, *args, **kwargs):
-        iface_dir = '/sys/class/net'
         try:
-            result = os.listdir(iface_dir)
-            return Response(result, status=status.HTTP_200_OK)
+            result = os.listdir('/sys/class/net')
+            logger.info(result)
+            return Response(
+                ReplyFormat.status_200(result),
+                status=status.HTTP_200_OK
+            )
         except:
+            message = traceback.format_exc().splitlines()[-1]
             logger.error(traceback.format_exc())
-            return Response('{"code": "1", "result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                ReplyFormat.status_500(message),
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class InterfaceInfoAPIViews(views.APIView):
 
@@ -28,10 +35,25 @@ class InterfaceInfoAPIViews(views.APIView):
     def get(self, request, *args, **kwargs):
         try:
             if self.kwargs.get('interface') == None:
-                return Response('{"code": "2", "result": "Need the NIC name."}', status=status.HTTP_400_BAD_REQUEST)
-            result = dict()
-            info = Net.get_ip_from_if(self.kwargs.get('interface'))
-            return Response(result, status=status.HTTP_200_OK)
+                message = ''
+                logger.error(message)
+                return Response(
+                    ReplyFormat.status_400(message),
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                result = dict()
+                info = Net.get_ip_from_if(self.kwargs.get('interface'))
+                result['ip'] = 
+                logger.info(result)
+                return Response(
+                    ReplyFormat.status_200(result),
+                    status=status.HTTP_200_OK
+                )
         except:
+            message = traceback.format_exc().splitlines()[-1]
             logger.error(traceback.format_exc())
-            return Response('{"code": "1", "result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                ReplyFormat.status_500(message),
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

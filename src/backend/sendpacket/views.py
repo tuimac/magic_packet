@@ -2,6 +2,7 @@ from rest_framework import views, status
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from .sendpacket import SendPacket
+from utils.replyformat import ReplyFormat
 import logging
 import traceback
 
@@ -11,13 +12,27 @@ class SendPacketAPIViews(views.APIView):
 
     renderer_classes = [JSONRenderer]
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
-            if not 'macaddr' in request.data:
-                return Response('', status=status.HTTP_400_BAD_REQUEST)
-            sendpacket = SendPacket()
-            result = sendpacket.sendpacket(request.data['macaddr'])
-            return Response(result, status=status.HTTP_200_OK)
+            if self.kwargs.get('macaddr') == None:
+                message = 'You need the target MAC address.'
+                logger.error(message)
+                return Response(
+                    ReplyFormat.status_400(message),
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                sendpacket = SendPacket()
+                result = sendpacket.sendpacket(self.kwargs.get('macaddr'))
+                logger.info(result)
+                return Response(
+                    ReplyFormat.status_200(result),
+                    status=status.HTTP_200_OK
+                )
         except:
+            message = traceback.format_exc().splitlines()[-1]
             logger.error(traceback.format_exc())
-            return Response('{"result": "Runtime error."}', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                ReplyFormat.status_500(message),
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
