@@ -2,6 +2,7 @@ from rest_framework import views, status
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from .ping import Ping
+from utils.replyformat import ReplyFormat
 import logging
 import traceback
 

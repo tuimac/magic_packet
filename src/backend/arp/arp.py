@@ -37,7 +37,6 @@ class Arp:
         self.response['body']['dest_ip'] = Net.bytes_to_string_ip(dest_ip)
 
         # Information except the packet
-        self.response['result'] = 'success'
         self.response['hwvendor'] = HwAddrVendor.getVendor(self.response['header']['src_mac'])
 
         return
