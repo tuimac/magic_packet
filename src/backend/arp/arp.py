@@ -6,6 +6,7 @@ import struct
 import fcntl
 import datetime
 from utils.net import Net
+from utils.hwaddrvendor import HwAddrVendor
 
 logger = logging.getLogger("django")
 
@@ -16,8 +17,6 @@ class Arp:
 
     # Format the byte code data to dictionary
     def _format_recv_packet(self, packet: bytes):
-        self.response['result'] = 'success'
-
         # Format the header
         dest_mac, src_mac, ether_type = struct.unpack('!6s6sH', packet[:14])
         self.response['header'] = dict()
@@ -36,6 +35,11 @@ class Arp:
         self.response['body']['src_ip'] = Net.bytes_to_string_ip(src_ip)
         self.response['body']['dest_mac'] = Net.bytes_to_string_mac(dest_mac)
         self.response['body']['dest_ip'] = Net.bytes_to_string_ip(dest_ip)
+
+        # Information except the packet
+        self.response['result'] = 'success'
+        self.response['hwvendor'] = HwAddrVendor.getVendor(self.response['header']['src_mac'])
+
         return
 
     # Send single arp packet to the target server

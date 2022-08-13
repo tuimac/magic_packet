@@ -1,10 +1,25 @@
 import React from 'react';
 
 class Scan extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      count: '',
+      owner: ''
+    }
+    this.sendArp = this.sendArp.bind(this);
+  }  
+
+  sendArp() {
+    
+  }
+
   render() {
     return(
       <>
-        <h1>Scan!</h1>
+
       </>
     );
   };
