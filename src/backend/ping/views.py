@@ -16,7 +16,7 @@ class PingAPIViews(views.APIView):
         try:
             logger.info(self.kwargs)
             if self.kwargs.get('ip') == None:
-                message = 'Need the target IP address.'
+                message = 'You need the target IP address.'
                 logger.error(message)
                 return Response(
                     ReplyFormat.status_400(message),

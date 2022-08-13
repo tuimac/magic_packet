@@ -35,7 +35,7 @@ class InterfaceInfoAPIViews(views.APIView):
     def get(self, request, *args, **kwargs):
         try:
             if self.kwargs.get('interface') == None:
-                message = ''
+                message = 'You need the target network interface name.'
                 logger.error(message)
                 return Response(
                     ReplyFormat.status_400(message),
