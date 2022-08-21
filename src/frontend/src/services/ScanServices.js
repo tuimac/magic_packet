@@ -28,7 +28,16 @@ class ScanServices {
     )
   }
 
-  static sendArp() {
+  static sendArp(ip) {
+    let url = API_URL + '/arp/' + ip + '/';
+    return axios.get(url).then(res => {
+        return res.data.result;
+      })
+      .catch(err => {
+        console.error(err);
+        return {};
+      }
+    )
   }
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,6 +12,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ScanServices from '../services/ScanServices';
+import ScanMessages from '../messages/ScanMessages';
 
 class Scan extends React.Component {
 
@@ -22,10 +24,11 @@ class Scan extends React.Component {
       nic_list: {},
       nic_info: '',
       loading: true,
-      erro_msg: ''
+      messages: []
     }
-    this.sendArp = this.sendArp.bind(this);
+    this.startScan = this.startScan.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.showMessages = this.showMessages.bind(this);
   }
 
   componentDidMount = async () => {
@@ -33,7 +36,6 @@ class Scan extends React.Component {
       nic_list: await ScanServices.getInterfaceList(),
       loading: false
     })
-    console.log(this.state)
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -46,14 +48,14 @@ class Scan extends React.Component {
     this.setState({ nic: event.target.value });
   }
 
-  sendArp() {
+  startScan() {
     if (this.state.nic_info === '') {
-
+      
     } else {
     }
   }
 
-  generateInterfaceInfoCard() {
+  showInterfaceInfoCard() {
     if (this.state.nic_info === '') {
       return '';
     } else {
@@ -82,10 +84,18 @@ class Scan extends React.Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="medium">Start Scan</Button>
+            <Button size="medium" onClick={ this.startScan() }>Start Scan</Button>
           </CardActions>
         </Card>
       );
+    }
+  }
+
+  showMessages() {
+    if (this.state.messages.length === 0) {
+      return '';
+    } else {
+      return ScanMessages.createMessages(this.state.messages);
     }
   }
 
@@ -97,32 +107,37 @@ class Scan extends React.Component {
     } else {
       return(
         <>
-          <Grid container>
-            <Grid>
-              <FormControl sx={{ m: 1, minWidth: 240 }}>
-                <InputLabel id="nic">Network Interface Name</InputLabel>
-                <Select
-                  id="nic"
-                  autoWidth
-                  label="Network Interface Name"
-                  value={ this.state.nic }
-                  onChange={ this.handleChange }
-                >
-                  {this.state.nic_list.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                    >
-                      {name}
-                    </MenuItem>
-                  ))} 
-                </Select>
-              </FormControl>
+          <Box sx={{ flexGrow: 1}}>
+            <Grid container>
+              <Grid>
+                <FormControl sx={{ m: 1, minWidth: 240 }}>
+                  <InputLabel id="nic">Network Interface Name</InputLabel>
+                  <Select
+                    id="nic"
+                    autoWidth
+                    label="Network Interface Name"
+                    value={ this.state.nic }
+                    onChange={ this.handleChange }
+                  >
+                    {this.state.nic_list.map((name) => (
+                      <MenuItem
+                        key={name}
+                        value={name}
+                      >
+                        {name}
+                      </MenuItem>
+                    ))} 
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid>
+                { this.showInterfaceInfoCard() }
+              </Grid>
+              <Grid container direction='row' justifyContent='flex-end' alignItems='stretch'>
+                { this.showMessages() }
+              </Grid>
             </Grid>
-            <Grid>
-              { this.generateInterfaceInfoCard() }
-            </Grid>
-          </Grid>
+          </Box>
         </>
       );
     }
