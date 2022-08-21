@@ -28,7 +28,6 @@ class Scan extends React.Component {
     }
     this.startScan = this.startScan.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.showMessages = this.showMessages.bind(this);
   }
 
   componentDidMount = async () => {
@@ -36,6 +35,8 @@ class Scan extends React.Component {
       nic_list: await ScanServices.getInterfaceList(),
       loading: false
     })
+    this.state.messages.push('test');
+    this.state.messages.push('t1');
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -91,14 +92,6 @@ class Scan extends React.Component {
     }
   }
 
-  showMessages() {
-    if (this.state.messages.length === 0) {
-      return '';
-    } else {
-      return ScanMessages.createMessages(this.state.messages);
-    }
-  }
-
   render() {
     if(this.state.loading) {
       return(
@@ -134,7 +127,7 @@ class Scan extends React.Component {
                 { this.showInterfaceInfoCard() }
               </Grid>
               <Grid container direction='row' justifyContent='flex-end' alignItems='stretch'>
-                { this.showMessages() }
+                <ScanMessages messages={ this.state.messages }/>
               </Grid>
             </Grid>
           </Box>
