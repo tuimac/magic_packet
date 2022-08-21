@@ -35,8 +35,6 @@ class Scan extends React.Component {
       nic_list: await ScanServices.getInterfaceList(),
       loading: false
     })
-    this.state.messages.push('test');
-    this.state.messages.push('t1');
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -51,8 +49,9 @@ class Scan extends React.Component {
 
   startScan() {
     if (this.state.nic_info === '') {
-      
+      return '';
     } else {
+      
     }
   }
 
@@ -85,7 +84,7 @@ class Scan extends React.Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="medium" onClick={ this.startScan() }>Start Scan</Button>
+            <Button size="medium" onClick={ this.startScan }>Start Scan</Button>
           </CardActions>
         </Card>
       );

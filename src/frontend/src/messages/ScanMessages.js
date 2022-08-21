@@ -10,7 +10,11 @@ class ScanMessages extends React.Component {
     this.deleteMessage = this.deleteMessage.bind(this);
   }
 
-
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.messages.length !== this.props.messages.length) {
+			this.forceUpdate();
+    }
+  }
 
   deleteMessage(index) {
     console.log(index);

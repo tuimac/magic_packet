@@ -21,6 +21,10 @@ class Net:
         return result.to_bytes(4, 'big')
 
     @staticmethod
+    def int_to_byte_ip(ipaddr: str) -> bytes:
+        return int(ipaddr, base=10).to_bytes(4, 'big')
+
+    @staticmethod
     def string_to_byte_mac(ipaddr: str) -> bytes:
         result = 0
         octets = []
