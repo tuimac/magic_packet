@@ -1,7 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -11,7 +10,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { API_URL } from '../config/environment';
+import ScanServices from '../services/ScanServices';
 
 class Scan extends React.Component {
 
@@ -22,21 +21,24 @@ class Scan extends React.Component {
       nic: '',
       nic_list: {},
       nic_info: '',
-      loading: true
+      loading: true,
+      erro_msg: ''
     }
     this.sendArp = this.sendArp.bind(this);
-    this.getInterfaceInfo = this.getInterfaceInfo.bind(this);
-    this.getInterfaceList = this.getInterfaceList.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    this.getInterfaceList();
+  componentDidMount = async () => {
+    this.setState({
+      nic_list: await ScanServices.getInterfaceList(),
+      loading: false
+    })
+    console.log(this.state)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = async (prevProps, prevState) => {
     if (prevState.nic !== this.state.nic) {
-      this.getInterfaceInfo();
+      this.setState({ nic_info: await ScanServices.getInterfaceInfo(this.state.nic) })
     }
   }
 
@@ -44,39 +46,11 @@ class Scan extends React.Component {
     this.setState({ nic: event.target.value });
   }
 
-  getInterfaceInfo() {
-    let url = API_URL + '/interface/info/' + this.state.nic + '/';
-    axios.get(url).then((res) => {
-        this.setState({ nic_info: res.data.result, loading: false })
-      })
-      .catch((err) => {
-        console.error(err);
-        this.setState({ nic_info: { ip: '', subnet: '' }, loading: false })
-      }
-    )
-  }
-
-  getInterfaceList() {
-    let url = API_URL + '/interface/list/';
-    axios.get(url).then(res => {
-        this.setState({ nic_list: res.data.result, loading: false })
-      })
-      .catch(err => {
-        console.error(err);
-      }
-    )
-  }
-
   sendArp() {
-    let url = API_URL + '/interface/list/';
-    axios.get(url).then(res => {
-        this.setState({ api_data: res, loading: false })
-        console.log(this.state.api_data);
-      })
-      .catch(err => {
-        console.error(err);
-      }
-    )
+    if (this.state.nic_info === '') {
+
+    } else {
+    }
   }
 
   generateInterfaceInfoCard() {
@@ -123,36 +97,32 @@ class Scan extends React.Component {
     } else {
       return(
         <>
-          <Box sx={{ display: 'flex' }}>
-            <div>
-              <div>
-                <FormControl sx={{ m: 1, minWidth: 240 }}>
-                  <InputLabel id="nic">Network Interface Name</InputLabel>
-                  <Select
-                    id="nic"
-                    autoWidth
-                    label="Network Interface Name"
-                    value={ this.state.nic }
-                    onChange={ this.handleChange }
-                  >
-                    {this.state.nic_list.map((name) => (
-                      <MenuItem
-                        key={name}
-                        value={name}
-                      >
-                        {name}
-                      </MenuItem>
-                    ))} 
-                  </Select>
-                </FormControl>
-              </div>
-              <div>
-                { this.generateInterfaceInfoCard() }
-              </div>
-            </div>
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-          </Box>
+          <Grid container>
+            <Grid>
+              <FormControl sx={{ m: 1, minWidth: 240 }}>
+                <InputLabel id="nic">Network Interface Name</InputLabel>
+                <Select
+                  id="nic"
+                  autoWidth
+                  label="Network Interface Name"
+                  value={ this.state.nic }
+                  onChange={ this.handleChange }
+                >
+                  {this.state.nic_list.map((name) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))} 
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid>
+              { this.generateInterfaceInfoCard() }
+            </Grid>
+          </Grid>
         </>
       );
     }
