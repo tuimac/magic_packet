@@ -26,14 +26,14 @@ function convertToIP(ip) {
 }
 
 ip_bin = parseIPv4(ip_octets);
-//console.log(ip_bin);
+console.log(ip_bin);
 subnet_bin = parseIPv4(subnet_octets)
-//console.log(subnet_bin)
+console.log(subnet_bin)
 ips = 4294967295 - subnet_bin;
 first_ip = ip_bin & subnet_bin;
 console.log(ips)
 
 for (var i = 0; i < ips; i++) {
   first_ip++;
-  console.log(convertToIP(first_ip));
+  //console.log(convertToIP(first_ip));
 }

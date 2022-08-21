@@ -12,7 +12,7 @@ class ScanMessages extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.messages.length !== this.props.messages.length) {
-			this.forceUpdate();
+      this.forceUpdate();
     }
   }
 
@@ -23,8 +23,8 @@ class ScanMessages extends React.Component {
   }
 
   render() {
-		return(
-			<>
+    return(
+      <>
         <Stack spacing={2}>
           {this.props.messages.map((message, index) => (
             <Alert
@@ -48,8 +48,8 @@ class ScanMessages extends React.Component {
             </Alert>
           ))}
         </Stack>
-			</>
-		);
+      </>
+    );
   };
 }
 
