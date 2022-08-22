@@ -81,8 +81,10 @@ class Scan extends React.Component {
       for (var i = 0; i < 4294967295 - subnet_bin; i++) {
         target++;
         let result = await ScanServices.sendArp(target);
+        let tmp = this.state.scan_result;
         if (result.body.op === '2') {
-          await this.state.scan_result.push(result);
+          tmp.push(result);
+          this.setState({ scan_result: tmp });
         }
       }
       this.setState({ loading: false });
@@ -139,7 +141,7 @@ class Scan extends React.Component {
     return (
       <>
         { this.state.scan_result.map((result, index) => (
-          <ListItemButton onClick={ this.handleClickScanList({index}) }>
+          <ListItemButton onClick={ (index) => this.handleClickScanList(index) }>
             <ListItemText primary={ result.body.src_ip } />
             { this.state.scan_list_click_status[{index}] ? <ExpandLess /> : <ExpandMore /> }
           </ListItemButton>
