@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
-import Home from './components/Home';
-import Scan from './components/Scan';
+import Home from './components/home/Home';
+import Scan from './components/scan/Scan';
 import { ThemeProvider,  createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 

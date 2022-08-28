@@ -1,4 +1,5 @@
 import requests
+import traceback
 
 class HwAddrVendor:
     @staticmethod
@@ -24,8 +25,14 @@ class HwAddrVendor:
             # If there is no vendor in the above list, search that by API.
             try:
                 apiUrl = 'https://api.macvendors.com/' + macaddr.replace(':', '-')
-                return requests.get(apiUrl).content.decode()
+                result = requests.get(apiUrl).content.decode()
+                if 'error' in result:
+                    return ''
+                else:
+                    return result
             except:
-                return 'There is no vendor'
+                logger.error(traceback.format_exc())
+                return ''
         except:
-            return 'Vendor search error'
+            logger.error(traceback.format_exc())
+            return ''

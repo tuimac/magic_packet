@@ -11,17 +11,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
 
-import ScanServices from '../services/ScanServices';
-import ScanMessages from '../messages/ScanMessages';
-import Utils from '../utils/Utils';
+import ScanServices from '../../services/ScanServices';
+import ScanMessages from '../../messages/ScanMessages';
+import Utils from '../../utils/Utils';
+import ScanResult from './ScanResult';
 
 class Scan extends React.Component {
 
@@ -34,13 +28,11 @@ class Scan extends React.Component {
       loading: true,
       messages: [],
       scan_result: [],
-      scan_list_click_status: {}
+      scan_list_click_status: []
     }
     this.startScan = this.startScan.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.showLoading = this.showLoading.bind(this);
-    this.handleClickScanList = this.handleClickScanList.bind(this);
-    this.showScanList = this.showScanList.bind(this);
+    this.showLoadingStatus = this.showLoadingStatus.bind(this);
   }
 
   componentDidMount = async () => {
@@ -60,14 +52,6 @@ class Scan extends React.Component {
     this.setState({ nic: event.target.value });
   }
 
-  handleClickScanList(index) {
-    this.setState({
-      scan_list_click_status: {
-        [index]: !this.scan_list_click_status
-      }
-    });
-  }
-
   startScan = async () => {
     if (this.state.nic_info === '') {
       return '';
@@ -79,12 +63,22 @@ class Scan extends React.Component {
 
       // 4294967295 is 255.255.255.255
       for (var i = 0; i < 4294967295 - subnet_bin; i++) {
-        target++;
-        let result = await ScanServices.sendArp(target);
-        let tmp = this.state.scan_result;
-        if (result.body.op === '2') {
-          tmp.push(result);
-          this.setState({ scan_result: tmp });
+        try {
+          target++;
+          let result = await ScanServices.sendArp(target);
+          let tmp_scan_result = this.state.scan_result;
+          let tmp_scan_list_click_status = this.state.scan_list_click_status;
+
+          if (result.body.op === '2') {
+            tmp_scan_result.push(result);
+            tmp_scan_list_click_status.push(false);
+            this.setState({ 
+              scan_result: tmp_scan_result,
+              scan_list_click_status: tmp_scan_list_click_status
+            });
+          }
+        } catch {
+          continue;
         }
       }
       this.setState({ loading: false });
@@ -127,7 +121,7 @@ class Scan extends React.Component {
     }
   }
 
-  showLoading() {
+  showLoadingStatus() {
     if (this.state.loading) {
       return (
         <CircularProgress />
@@ -137,19 +131,6 @@ class Scan extends React.Component {
     }
   }
 
-  showScanList() {
-    return (
-      <>
-        { this.state.scan_result.map((result, index) => (
-          <ListItemButton onClick={ (index) => this.handleClickScanList(index) }>
-            <ListItemText primary={ result.body.src_ip } />
-            { this.state.scan_list_click_status[{index}] ? <ExpandLess /> : <ExpandMore /> }
-          </ListItemButton>
-        ))}
-      </>
-    );
-  }
-
   render() {
     return(
       <>
@@ -157,20 +138,11 @@ class Scan extends React.Component {
           <Grid container>
             <Grid>
               <FormControl sx={{ m: 1, minWidth: 240 }}>
-                <InputLabel id="nic">Network Interface Name</InputLabel>
-                <Select
-                  id="nic"
-                  autoWidth
-                  label="Network Interface Name"
-                  value={ this.state.nic }
-                  onChange={ this.handleChange }
-                >
+                <InputLabel id='nic'>Network Interface Name</InputLabel>
+                <Select id='nic' autoWidth label='nic' value={ this.state.nic } onChange={ this.handleChange }>
                   {this.state.nic_list.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                    >
-                      {name}
+                    <MenuItem key={ name } value={ name }>
+                      { name }
                     </MenuItem>
                   ))} 
                 </Select>
@@ -186,15 +158,11 @@ class Scan extends React.Component {
         </Box>
         <Box>
           <Grid>
-            { this.showLoading() }
+            { this.showLoadingStatus() }
           </Grid>
         </Box>
         <Box>
-          <div>
-            <List>
-              { this.showScanList() }
-            </List>
-          </div>
+          { this.state.scan_result.map((result, index) => ( <ScanResult result={ result } key={ index }/> ))}
         </Box>
       </>
     );
