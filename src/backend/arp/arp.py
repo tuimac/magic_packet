@@ -67,7 +67,7 @@ class Arp:
                 src_mac,
                 src_ip,
                 b'\xff\xff\xff\xff\xff\xff',
-                Net.int_to_byte_ip(dest_ip)
+                Net.string_to_byte_ip(dest_ip)
             )
 
             # Send Arp packet

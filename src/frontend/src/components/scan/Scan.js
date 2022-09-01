@@ -27,6 +27,7 @@ class Scan extends React.Component {
       nic_info: '',
       loading: true,
       messages: [],
+      scan_target: '',
       scan_result: [],
       scan_list_click_status: []
     }
@@ -62,10 +63,9 @@ class Scan extends React.Component {
       this.setState({ loading: true });
 
       // 4294967295 is 255.255.255.255
-      for (var i = 0; i < 4294967295 - subnet_bin; i++) {
+      for (var i = 0; i <= 4294967295 - subnet_bin; i++) {
         try {
-          target++;
-          let result = await ScanServices.sendArp(target);
+          let result = await ScanServices.sendArp(Utils.int_to_string_ip(target++));
           let tmp_scan_result = this.state.scan_result;
           let tmp_scan_list_click_status = this.state.scan_list_click_status;
 
