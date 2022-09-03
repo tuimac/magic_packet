@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Zoom from '@mui/material/Zoom';
 
 class AlertMessages extends React.Component {
   constructor(props) {
@@ -17,27 +18,29 @@ class AlertMessages extends React.Component {
       return(
         <Stack sx={{ width: '100%', pb: 3 }}>
           {this.props.alerts.map((message, index) => (
-            <Alert
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  key={ index }
-                  onClick={() => {
-                    this.props.deleteAlert(index);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ p: 0 }}
-              variant='filled'
-              severity='success'
-              key={ index }
-            >
-              { message }
-            </Alert>
+            <Zoom in={ true } key={ index }>
+              <Alert
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    key={ index }
+                    onClick={() => {
+                      this.props.deleteAlert(index);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ p: 0 }}
+                variant='filled'
+                severity='success'
+                key={ index }
+              >
+                { message }
+              </Alert>
+            </Zoom>
           ))}
         </Stack>
       );
