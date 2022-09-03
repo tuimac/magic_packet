@@ -11,6 +11,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
 
 import ScanServices from '../../services/ScanServices';
 import ScanMessages from '../../messages/ScanMessages';
@@ -38,7 +40,6 @@ class Scan extends React.Component {
     this.startScan = this.startScan.bind(this);
     this.stopScan = this.stopScan.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.showLoadingStatus = this.showLoadingStatus.bind(this);
   }
 
   componentDidMount = async () => {
@@ -141,36 +142,34 @@ class Scan extends React.Component {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="medium" onClick={ this.startScan }>Start Scan</Button>
-          </CardActions>
-          <CardActions>
-            <Button size="medium" onClick={ this.stopScan }>Stop Scan</Button>
+            <Button
+              size="medium"
+              onClick={ this.startScan }
+              variant='contained'
+              color='success'
+              startIcon={ <PlayArrowIcon /> }
+            >
+              Start Scan
+            </Button>
+            <Button
+              size="medium"
+              onClick={ this.stopScan }
+              variant='outlined'
+              color='error'
+              startIcon={ <StopIcon /> }
+            >
+              Stop Scan
+            </Button>
           </CardActions>
         </Card>
       );
     }
   }
 
-  showLoadingStatus() {
-    if (this.state.loading) {
-      return (
-        <ScanProgressBar
-          index={ this.state.search_progress.index }
-          max_index={ this.state.search_progress.max_index }
-          ip={ this.state.search_ip }
-          start_time={ this.state.search_start_time }
-          detected_devices={ this.state.scan_result.length }
-        />
-      );
-    } else {
-      return '';
-    }
-  }
-
   render() {
     return(
       <>
-        <Box sx={{ flexGrow: 1}}>
+        <Box sx={{ flexGrow: 1, pt: 8, px: 2 }}>
           <Grid container>
             <Grid>
               <FormControl sx={{ m: 1, minWidth: 240 }}>
@@ -193,9 +192,14 @@ class Scan extends React.Component {
           </Grid>
         </Box>
         <Box>
-          <Grid>
-            { this.showLoadingStatus() }
-          </Grid>
+          <ScanProgressBar
+            loading={ this.state.loading }
+            index={ this.state.search_progress.index }
+            max_index={ this.state.search_progress.max_index }
+            ip={ this.state.search_ip }
+            start_time={ this.state.search_start_time }
+            detected_devices={ this.state.scan_result.length }
+          />
         </Box>
         <Box>
           { this.state.scan_result.map((result, index) => ( <ScanResult result={ result } key={ index }/> ))}

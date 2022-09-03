@@ -22,15 +22,11 @@ class App extends React.Component {
         <ThemeProvider theme={ darkTheme }>
           <CssBaseline />
           <BrowserRouter>
-            <Box sx={{ display: "flex" }}>
-              <Box>
-                <HomeLayout />
-              </Box>
-              <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/scan"  element={<Scan />} />
-              </Routes>
-            </Box>
+            <HomeLayout />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/scan"  element={<Scan />} />
+            </Routes>
           </BrowserRouter>
         </ThemeProvider>
       </>
