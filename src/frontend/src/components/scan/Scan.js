@@ -16,7 +16,7 @@ import ScanServices from '../../services/ScanServices';
 import ScanMessages from '../../messages/ScanMessages';
 import Utils from '../../utils/Utils';
 import ScanResult from './ScanResult';
-import CustomProgressBar from '../../utils/CustomProgressBar';
+import ScanProgressBar from '../../utils/ScanProgressBar';
 
 class Scan extends React.Component {
 
@@ -34,7 +34,6 @@ class Scan extends React.Component {
       search_ip: '',
       search_stop: false,
       search_progress: '',
-      search_start_time: 0
     }
     this.startScan = this.startScan.bind(this);
     this.stopScan = this.stopScan.bind(this);
@@ -71,7 +70,7 @@ class Scan extends React.Component {
       
       this.setState({ scan_result: [] });
       this.setState({ search_stop: false });
-      this.setState({ search_start: datetime.getTime() })
+      this.setState({ search_start_time: datetime.getTime() })
       this.setState({ loading: true });
 
       // 4294967295 is 255.255.255.255
@@ -155,11 +154,12 @@ class Scan extends React.Component {
   showLoadingStatus() {
     if (this.state.loading) {
       return (
-        <CustomProgressBar
+        <ScanProgressBar
           index={ this.state.search_progress.index }
           max_index={ this.state.search_progress.max_index }
           ip={ this.state.search_ip }
           start_time={ this.state.search_start_time }
+          detected_devices={ this.state.scan_result.length }
         />
       );
     } else {

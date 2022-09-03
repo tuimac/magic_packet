@@ -31,12 +31,10 @@ class Utils {
     let lap = datetime.getTime() - starttime;
 
     if(lap >= 3600000) {
-      return Math.floor(lap / 3600000).toString() + ':' + Math.floor(lap / 60000 - 60000).toString() + ':' + Math.floor(lap / 1000 - 3600).toString();
-    } else (60000 <= lap < 3600000) {
-       return Math.floor(lap / 60000).toString() + ':' + Math.floor(lap / 1000 - 3600).toString();
+      return Math.floor(lap / 3600000).toString().padStart(2, 0) + ':' + Math.floor(lap / 60000 % 60).toString().padStart(2, 0) + ':' + Math.floor(lap / 1000 % 60).toString().padStart(2, 0);
     } else {
-      return Math.floor()
-    }
+      return Math.floor(lap / 60000).toString().padStart(2, 0) + ':' + Math.floor(lap / 1000 % 60).toString().padStart(2, 0);
+    } 
   }
 }
 

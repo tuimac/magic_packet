@@ -7,7 +7,7 @@ import Card from '@mui/material/Card';
 
 import Utils from './Utils.js'
 
-class CustomProgressBar extends React.Component {
+class ScanProgressBar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -38,10 +38,13 @@ class CustomProgressBar extends React.Component {
           <Typography variant="body1">
             Searching Time: { Utils.getTimeStamp(this.props.start_time) }
           </Typography>
+          <Typography variant="body1">
+            Number of Devices: { this.props.detected_devices }
+          </Typography>
         </Card>
       </div>
     );
   };
 }
 
-export default CustomProgressBar;
+export default ScanProgressBar;
