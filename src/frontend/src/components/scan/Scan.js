@@ -15,7 +15,6 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 
 import ScanServices from '../../services/ScanServices';
-import ScanMessages from '../../messages/ScanMessages';
 import Utils from '../../utils/Utils';
 import ScanResult from './ScanResult';
 import ScanProgressBar from '../../utils/ScanProgressBar';
@@ -186,9 +185,6 @@ class Scan extends React.Component {
             </Grid>
             <Grid>
               { this.showInterfaceInfoCard() }
-            </Grid>
-            <Grid container direction='row' justifyContent='flex-end' alignItems='stretch'>
-              <ScanMessages messages={ this.state.messages }/>
             </Grid>
           </Grid>
         </Box>
