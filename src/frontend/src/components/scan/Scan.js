@@ -68,6 +68,7 @@ class Scan extends React.Component {
       let target = ip_bin & subnet_bin;
       let max_index = 4294967295 - subnet_bin;
       let datetime = new Date();
+      this.props.addAlert('Start Scan');
       
       this.setState({ scan_result: [] });
       this.setState({ search_stop: false });
@@ -169,7 +170,7 @@ class Scan extends React.Component {
   render() {
     return(
       <>
-        <Box sx={{ flexGrow: 1, pt: 8, px: 2 }}>
+        <Box sx={{ flexGrow: 1, pb: 1 }}>
           <Grid container>
             <Grid>
               <FormControl sx={{ m: 1, minWidth: 240 }}>
@@ -191,7 +192,7 @@ class Scan extends React.Component {
             </Grid>
           </Grid>
         </Box>
-        <Box>
+        <Box sx={{ pb: 3 }}>
           <ScanProgressBar
             loading={ this.state.loading }
             index={ this.state.search_progress.index }
@@ -201,7 +202,7 @@ class Scan extends React.Component {
             detected_devices={ this.state.scan_result.length }
           />
         </Box>
-        <Box>
+        <Box sx={{ maxHeight: 300, overflow: 'auto' }}>
           { this.state.scan_result.map((result, index) => ( <ScanResult result={ result } key={ index }/> ))}
         </Box>
       </>

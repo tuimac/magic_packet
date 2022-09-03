@@ -17,11 +17,11 @@ class ScanProgressBar extends React.Component {
   render() {
     if (this.props.loading && this.props.ip !== '') {
       return(
-        <Box sx={{ px: 2 }}>
-          <Card>
+        <Box sx={{ px: 1 }}>
+          <Card sx={{ px: 1, py: 1}}>
             <CircularProgress color='primary' />
           </Card>
-          <Card>
+          <Card sx={{ px: 1, py: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ width: '100%', mr: 1 }}>
                 <LinearProgress
@@ -36,7 +36,7 @@ class ScanProgressBar extends React.Component {
               </Box>
             </Box>
           </Card>
-          <Card>
+          <Card sx={{ px: 1, py: 1 }}>
             <Typography variant="body1">
               Searching IP:  { this.props.ip }
             </Typography>
@@ -51,8 +51,8 @@ class ScanProgressBar extends React.Component {
       );
     } else if (!this.props.loading && this.props.ip !== '') {
       return(
-        <Box sx={{ px: 2 }}>
-          <Card>
+        <Box sx={{ px: 1 }}>
+          <Card sx={{ px: 1, py: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box sx={{ width: '100%', mr: 1 }}>
                 <LinearProgress
@@ -67,7 +67,7 @@ class ScanProgressBar extends React.Component {
               </Box>
             </Box>
           </Card>
-          <Card>
+          <Card sx={{ px: 1, py: 1 }}>
             <Typography variant="body1">
               Searching IP:  { this.props.ip }
             </Typography>

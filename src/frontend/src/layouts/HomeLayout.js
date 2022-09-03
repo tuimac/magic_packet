@@ -69,6 +69,7 @@ class HomeLayout extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
+        <Toolbar />
       </>
     );
   };
