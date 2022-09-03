@@ -25,6 +25,19 @@ class Utils {
     }
     return result;
   }
+
+  static getTimeStamp(starttime) {
+    let datetime = new Date();
+    let lap = datetime.getTime() - starttime;
+
+    if(lap >= 3600000) {
+      return Math.floor(lap / 3600000).toString() + ':' + Math.floor(lap / 60000 - 60000).toString() + ':' + Math.floor(lap / 1000 - 3600).toString();
+    } else (60000 <= lap < 3600000) {
+       return Math.floor(lap / 60000).toString() + ':' + Math.floor(lap / 1000 - 3600).toString();
+    } else {
+      return Math.floor()
+    }
+  }
 }
 
 export default Utils;

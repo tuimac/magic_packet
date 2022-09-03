@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -16,6 +16,7 @@ import ScanServices from '../../services/ScanServices';
 import ScanMessages from '../../messages/ScanMessages';
 import Utils from '../../utils/Utils';
 import ScanResult from './ScanResult';
+import CustomProgressBar from '../../utils/CustomProgressBar';
 
 class Scan extends React.Component {
 
@@ -29,9 +30,14 @@ class Scan extends React.Component {
       messages: [],
       scan_target: '',
       scan_result: [],
-      scan_list_click_status: []
+      scan_list_click_status: [],
+      search_ip: '',
+      search_stop: false,
+      search_progress: '',
+      search_start_time: 0
     }
     this.startScan = this.startScan.bind(this);
+    this.stopScan = this.stopScan.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.showLoadingStatus = this.showLoadingStatus.bind(this);
   }
@@ -60,12 +66,30 @@ class Scan extends React.Component {
       let ip_bin = Utils.string_to_int_ip(this.state.nic_info.ip);
       let subnet_bin = Utils.string_to_int_ip(this.state.nic_info.subnet);
       let target = ip_bin & subnet_bin;
+      let max_index = 4294967295 - subnet_bin;
+      let datetime = new Date();
+      
+      this.setState({ scan_result: [] });
+      this.setState({ search_stop: false });
+      this.setState({ search_start: datetime.getTime() })
       this.setState({ loading: true });
 
       // 4294967295 is 255.255.255.255
-      for (var i = 0; i <= 4294967295 - subnet_bin; i++) {
+      for (var i = 0; i <= max_index; i++) {
         try {
-          let result = await ScanServices.sendArp(Utils.int_to_string_ip(target++));
+          if (this.state.search_stop) {
+            break;
+          }
+          let target_ip = Utils.int_to_string_ip(target++)
+          this.setState({ search_ip: target_ip });
+          this.setState({
+            search_progress: {
+              index: i,
+              max_index: max_index
+            }
+          });
+          let result = await ScanServices.sendArp(target_ip);
+
           let tmp_scan_result = this.state.scan_result;
           let tmp_scan_list_click_status = this.state.scan_list_click_status;
 
@@ -83,6 +107,10 @@ class Scan extends React.Component {
       }
       this.setState({ loading: false });
     }
+  }
+
+  stopScan() {
+    this.setState({ search_stop: true });
   }
 
   showInterfaceInfoCard() {
@@ -116,6 +144,9 @@ class Scan extends React.Component {
           <CardActions>
             <Button size="medium" onClick={ this.startScan }>Start Scan</Button>
           </CardActions>
+          <CardActions>
+            <Button size="medium" onClick={ this.stopScan }>Stop Scan</Button>
+          </CardActions>
         </Card>
       );
     }
@@ -124,7 +155,12 @@ class Scan extends React.Component {
   showLoadingStatus() {
     if (this.state.loading) {
       return (
-        <CircularProgress />
+        <CustomProgressBar
+          index={ this.state.search_progress.index }
+          max_index={ this.state.search_progress.max_index }
+          ip={ this.state.search_ip }
+          start_time={ this.state.search_start_time }
+        />
       );
     } else {
       return '';
