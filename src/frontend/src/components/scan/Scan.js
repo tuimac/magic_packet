@@ -17,6 +17,7 @@ import StopIcon from '@mui/icons-material/Stop';
 import ScanServices from '../../services/ScanServices';
 import Utils from '../../utils/Utils';
 import ScanResult from './ScanResult';
+import NICInformation from './NICInformation';
 import ScanProgressBar from '../../utils/ScanProgressBar';
 
 class Scan extends React.Component {
@@ -129,59 +130,6 @@ class Scan extends React.Component {
     this.setState({ search_stop: true });
   }
 
-  showInterfaceInfoCard() {
-    if (this.state.nic_info === '') {
-      return '';
-    } else {
-      let ip;
-      let subnet;
-
-      if (this.state.nic_info.ip === '') {
-        ip = "There is no IP address.";
-      } else {
-        ip = this.state.nic_info.ip;
-      }
-      if (this.state.nic_info.subnet === '') {
-        subnet = "There is no subnet mask.";
-      } else {
-        subnet = this.state.nic_info.subnet;
-      }
-
-      return(
-        <Card variant='outlined'>
-          <CardContent>
-            <Typography variant="body1">
-              IP address: { ip }
-            </Typography>
-            <Typography variant="body1">
-              Subnet Mask: { subnet }
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              size="medium"
-              onClick={ this.startScan }
-              variant='contained'
-              color='success'
-              startIcon={ <PlayArrowIcon /> }
-            >
-              Start Scan
-            </Button>
-            <Button
-              size="medium"
-              onClick={ this.stopScan }
-              variant='outlined'
-              color='error'
-              startIcon={ <StopIcon /> }
-            >
-              Stop Scan
-            </Button>
-          </CardActions>
-        </Card>
-      );
-    }
-  }
-
   render() {
     return(
       <>
@@ -200,7 +148,11 @@ class Scan extends React.Component {
               </FormControl>
             </Grid>
             <Grid>
-              { this.showInterfaceInfoCard() }
+              <NICInformation
+                nic_info={ this.state.nic_info }
+                startScan={ this.startScan }
+                stopScan={ this.stopScan }
+              />
             </Grid>
           </Grid>
         </Box>
