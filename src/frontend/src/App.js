@@ -55,12 +55,12 @@ class App extends React.Component {
       <>
         <ThemeProvider theme={ darkTheme }>
           <CssBaseline />
+          <HomeLayout alerts={ this.state.alerts } deleteAlert={ this.deleteAlert }/>
           <BrowserRouter>
-            <HomeLayout alerts={ this.state.alerts } deleteAlert={ this.deleteAlert }/>
             <Box sx={{ px: 2 }}>
               <Routes>
-                <Route exact path="/" element={<MagicPacket addAlert={ this.addAlert }/>} />
-                <Route exact path="/scan"  element={<Scan addAlert={ this.addAlert }/>} />
+                <Route path="/" element={<MagicPacket addAlert={ this.addAlert }/>} />
+                <Route path="/scan" element={<Scan addAlert={ this.addAlert }/>} />
               </Routes>
             </Box>
           </BrowserRouter>

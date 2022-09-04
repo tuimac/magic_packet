@@ -28,10 +28,9 @@ class HomeLayout extends React.Component {
 
   toggleDrawer(event, bar_state) {
     if(event.type === 'click') {
-      console.log(bar_state);
       this.setState({ sidebar: bar_state });
     } else {
-      return
+      return;
     }
   }
 
