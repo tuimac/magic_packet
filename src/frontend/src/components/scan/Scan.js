@@ -42,15 +42,25 @@ class Scan extends React.Component {
   }
 
   componentDidMount = async () => {
-    this.setState({
-      nic_list: await ScanServices.getInterfaceList(),
-      loading: false
-    })
+    try {
+      this.setState({
+        nic_list: await ScanServices.getInterfaceList(),
+        loading: false
+      })
+    } catch(error) {
+      console.error(error);
+      this.props.addAlert({ severity: 'error', message: 'Failed to get NIC list!' });
+    }
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
-    if (prevState.nic !== this.state.nic) {
-      this.setState({ nic_info: await ScanServices.getInterfaceInfo(this.state.nic) })
+    try {
+      if (prevState.nic !== this.state.nic) {
+        this.setState({ nic_info: await ScanServices.getInterfaceInfo(this.state.nic) })
+      }
+    } catch(error) {
+      console.error(error);
+      this.props.addAlert({ severity: 'error', message: 'Failed to get NIC information!' });
     }
   }
 
@@ -59,53 +69,59 @@ class Scan extends React.Component {
   }
 
   startScan = async () => {
-    if (this.state.nic_info === '') {
-      return '';
-    } else {
-      let ip_bin = Utils.string_to_int_ip(this.state.nic_info.ip);
-      let subnet_bin = Utils.string_to_int_ip(this.state.nic_info.subnet);
-      let target = ip_bin & subnet_bin;
-      let max_index = 4294967295 - subnet_bin;
-      let datetime = new Date();
-      this.props.addAlert('Start Scan');
-      
-      this.setState({ scan_result: [] });
-      this.setState({ search_stop: false });
-      this.setState({ search_start_time: datetime.getTime() })
-      this.setState({ loading: true });
+    try {
+      if (this.state.nic_info === '') {
+        return '';
+      } else {
+        let ip_bin = Utils.string_to_int_ip(this.state.nic_info.ip);
+        let subnet_bin = Utils.string_to_int_ip(this.state.nic_info.subnet);
+        let target = ip_bin & subnet_bin;
+        let max_index = 4294967295 - subnet_bin;
+        let datetime = new Date();
+        this.props.addAlert({ severity: 'success', message: 'Start scan devices!' });
 
-      // 4294967295 is 255.255.255.255
-      for (var i = 0; i <= max_index; i++) {
-        try {
-          if (this.state.search_stop) {
-            break;
-          }
-          let target_ip = Utils.int_to_string_ip(target++)
-          this.setState({ search_ip: target_ip });
-          this.setState({
-            search_progress: {
-              index: i,
-              max_index: max_index
+        this.setState({ scan_result: [] });
+        this.setState({ search_stop: false });
+        this.setState({ search_start_time: datetime.getTime() })
+        this.setState({ loading: true });
+
+        // 4294967295 is 255.255.255.255
+        for (var i = 0; i <= max_index; i++) {
+          try {
+            if (this.state.search_stop) {
+              break;
             }
-          });
-          let result = await ScanServices.sendArp(target_ip);
-
-          let tmp_scan_result = this.state.scan_result;
-          let tmp_scan_list_click_status = this.state.scan_list_click_status;
-
-          if (result.body.op === '2') {
-            tmp_scan_result.push(result);
-            tmp_scan_list_click_status.push(false);
-            this.setState({ 
-              scan_result: tmp_scan_result,
-              scan_list_click_status: tmp_scan_list_click_status
+            let target_ip = Utils.int_to_string_ip(target++)
+            this.setState({ search_ip: target_ip });
+            this.setState({
+              search_progress: {
+                index: i,
+                max_index: max_index
+              }
             });
+            let result = await ScanServices.sendArp(target_ip);
+
+            let tmp_scan_result = this.state.scan_result;
+            let tmp_scan_list_click_status = this.state.scan_list_click_status;
+
+            if (result.body.op === '2') {
+              tmp_scan_result.push(result);
+              tmp_scan_list_click_status.push(false);
+              this.setState({ 
+                scan_result: tmp_scan_result,
+                scan_list_click_status: tmp_scan_list_click_status
+              });
+            }
+          } catch {
+            continue;
           }
-        } catch {
-          continue;
         }
+        this.setState({ loading: false });
+        this.props.addAlert({ severity: 'success', message: 'Complete scan devices!' });
       }
-      this.setState({ loading: false });
+    } catch(error) {
+      console.error(error);
+      this.props.addAlert({ severity: 'error', message: 'Failed to scan devices!' });
     }
   }
 

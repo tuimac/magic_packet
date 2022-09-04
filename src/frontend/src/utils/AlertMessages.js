@@ -9,6 +9,34 @@ import Zoom from '@mui/material/Zoom';
 class AlertMessages extends React.Component {
   constructor(props) {
     super(props);
+    this.messageFramework = this.messageFramework.bind(this);
+  }
+
+  messageFramework(message, index) {
+    return (
+      <Zoom in={ true } key={ index } sx={{ px: 1 }}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              key={ index }
+              onClick={() => {
+                this.props.deleteAlert(index);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ p: 0 }}
+          severity={ message.severity }
+          key={ index }
+        >
+          { message.message }
+        </Alert>
+      </Zoom>
+    );
   }
 
   render() {
@@ -18,29 +46,7 @@ class AlertMessages extends React.Component {
       return(
         <Stack sx={{ width: '100%', pb: 3 }}>
           {this.props.alerts.map((message, index) => (
-            <Zoom in={ true } key={ index }>
-              <Alert
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    key={ index }
-                    onClick={() => {
-                      this.props.deleteAlert(index);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ p: 0 }}
-                variant='filled'
-                severity='success'
-                key={ index }
-              >
-                { message }
-              </Alert>
-            </Zoom>
+            this.messageFramework(message, index)
           ))}
         </Stack>
       );
