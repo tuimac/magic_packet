@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 
 import HomeLayout from './layouts/HomeLayout';
 import AlertMessages from './utils/AlertMessages';
-import Home from './components/home/Home';
+import MagicPacket from './components/magicpacket/MagicPacket';
 import Scan from './components/scan/Scan';
 
 const darkTheme = createTheme({
@@ -61,7 +61,7 @@ class App extends React.Component {
             <AlertMessages alerts={ this.state.alerts } deleteAlert={ this.deleteAlert } />
             <Box sx={{ px: 2 }}>
               <Routes>
-                <Route exact path="/" element={<Home addAlert={ this.addAlert }/>} />
+                <Route exact path="/" element={<MagicPacket addAlert={ this.addAlert }/>} />
                 <Route exact path="/scan"  element={<Scan addAlert={ this.addAlert }/>} />
               </Routes>
             </Box>

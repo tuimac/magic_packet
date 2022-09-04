@@ -97,7 +97,7 @@ class Scan extends React.Component {
             let tmp_scan_result = this.state.scan_result;
             let tmp_scan_list_click_status = this.state.scan_list_click_status;
 
-            if (result.body.op === '2') {
+            if (result.code === 0) {
               tmp_scan_result.push(result);
               tmp_scan_list_click_status.push(false);
               this.setState({ 
@@ -125,6 +125,8 @@ class Scan extends React.Component {
   render() {
     return(
       <>
+        <Box>
+        </Box>
         <Box sx={{ flexGrow: 1, pb: 1 }}>
           <Grid container>
             <Grid>

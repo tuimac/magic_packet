@@ -37,7 +37,12 @@ class Arp:
         self.response['body']['dest_ip'] = Net.bytes_to_string_ip(dest_ip)
 
         # Information except the packet
-        self.response['hwvendor'] = HwAddrVendor.getVendor(self.response['header']['src_mac'])
+        if self.response['body']['op'] == '2':
+            self.response['hwvendor'] = HwAddrVendor.getVendor(self.response['header']['src_mac'])
+            self.response['code'] = 0
+        else:
+            self.response['hwvendor'] = ''
+            self.response['code'] = 3
 
         return
 
@@ -77,12 +82,17 @@ class Arp:
             self.sock.send(header + packet)
             data = self.sock.recvfrom(2048)
             self._format_recv_packet(data[0])
+
             return self.response
         except TimeoutError:
             logger.error(traceback.format_exc())
             self.response['result'] = 'Timeout'
+            self.response['code'] = 2
+
             return self.response
         except:
             logger.error(traceback.format_exc())
             self.response['result'] = 'Runtime error'
+            self.response['code'] = 1
+
             return self.response

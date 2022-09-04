@@ -25,7 +25,15 @@ class ArpAPIViews(views.APIView):
                 interface = self.kwargs.get('interface')
                 arp = Arp()
                 result = arp.sendpacket(dest_ip=self.kwargs.get('ip'), interface=interface)
-                logger.info(result)
+                
+                # Retry up to 3 times
+                for i in range(2):
+                    logger.info(result)
+                    if result['code'] == 2:
+                        result = arp.sendpacket(dest_ip=self.kwargs.get('ip'), interface=interface)
+                    else:
+                        break
+
                 return Response(
                     ReplyFormat.status_200(result),
                     status=status.HTTP_200_OK
