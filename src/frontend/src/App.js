@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 
 import HomeLayout from './layouts/HomeLayout';
-import AlertMessages from './utils/AlertMessages';
 import MagicPacket from './components/magicpacket/MagicPacket';
 import Scan from './components/scan/Scan';
 
@@ -57,8 +56,7 @@ class App extends React.Component {
         <ThemeProvider theme={ darkTheme }>
           <CssBaseline />
           <BrowserRouter>
-            <HomeLayout />
-            <AlertMessages alerts={ this.state.alerts } deleteAlert={ this.deleteAlert } />
+            <HomeLayout alerts={ this.state.alerts } deleteAlert={ this.deleteAlert }/>
             <Box sx={{ px: 2 }}>
               <Routes>
                 <Route exact path="/" element={<MagicPacket addAlert={ this.addAlert }/>} />

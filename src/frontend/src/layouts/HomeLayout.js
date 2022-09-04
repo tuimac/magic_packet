@@ -11,6 +11,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+
+import AlertMessages from './AlertMessages';
 
 class HomeLayout extends React.Component {
 
@@ -70,6 +73,9 @@ class HomeLayout extends React.Component {
           </Toolbar>
         </AppBar>
         <Toolbar />
+        <Grid container direction='row' justifyContent='flex-end' alignItems='flex-start'>
+          <AlertMessages alerts={ this.props.alerts } deleteAlert={ this.props.deleteAlert }/>
+        </Grid>
       </>
     );
   };

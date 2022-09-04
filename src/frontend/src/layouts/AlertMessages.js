@@ -44,11 +44,13 @@ class AlertMessages extends React.Component {
       return '';
     } else {
       return(
-        <Stack sx={{ width: '100%', pb: 3 }}>
-          {this.props.alerts.map((message, index) => (
-            this.messageFramework(message, index)
-          ))}
-        </Stack>
+        <Box position='fixed'>
+          <Stack>
+            {this.props.alerts.map((message, index) => (
+              this.messageFramework(message, index)
+            ))}
+          </Stack>
+        </Box>
       );
     }
   };
