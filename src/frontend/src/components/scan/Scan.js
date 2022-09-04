@@ -1,18 +1,10 @@
 import React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import StopIcon from '@mui/icons-material/Stop';
 
 import ScanServices from '../../services/ScanServices';
 import Utils from '../../utils/Utils';
@@ -149,6 +141,7 @@ class Scan extends React.Component {
             </Grid>
             <Grid>
               <NICInformation
+                nic={ this.state.nic }
                 nic_info={ this.state.nic_info }
                 startScan={ this.startScan }
                 stopScan={ this.stopScan }

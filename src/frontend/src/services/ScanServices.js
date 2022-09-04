@@ -9,8 +9,8 @@ class ScanServices {
       {
         return res.data.result;
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        throw error;
         return { ip: '', subnet: '' };
       }
     );
@@ -21,8 +21,8 @@ class ScanServices {
     return axios.get(url).then(res => {
         return res.data.result;
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        throw error;
         return [];
       }
     )
@@ -33,8 +33,8 @@ class ScanServices {
     return axios.get(url).then(res => {
         return res.data.result;
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        throw error;
         return {};
       }
     )
