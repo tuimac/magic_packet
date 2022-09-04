@@ -1,29 +1,48 @@
 import React from 'react';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Fade from '@mui/material/Fade';
 
 class ScanHeaderMessage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      open: true
+      open: true,
+      nic: ''
     };
-    this.handleOpen = this.handleOpen.bind(this);
   }
 
-  handleClick() {
-    if()
+  componentDidMount() {
+    this.setState({
+      open: true,
+      nic: this.props.nic
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.nic !== this.state.nic) {
+      this.setState({ nic: this.props.nic });
+      if (this.state.nic != '') {
+        this.setState({ open: false });
+      }
+    }
   }
 
   render() {
-    return(
-    );
+    if (this.props.nic === '') {
+      return (
+        <Fade in={ this.state.open }>
+          <Box sx={{ pb: 2 }}>
+            <Typography variant='body1'>
+              Select Network Interface Name in the list below.
+            </Typography>
+          </Box>
+        </Fade>
+      );
+    } else {
+      return '';
+    }
   };
 }
 

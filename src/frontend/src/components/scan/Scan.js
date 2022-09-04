@@ -10,6 +10,7 @@ import ScanServices from '../../services/ScanServices';
 import Utils from '../../utils/Utils';
 import ScanResult from './ScanResult';
 import NICInformation from './NICInformation';
+import ScanHeaderMessage from './ScanHeaderMessage';
 import ScanProgressBar from '../../utils/ScanProgressBar';
 
 class Scan extends React.Component {
@@ -125,7 +126,8 @@ class Scan extends React.Component {
   render() {
     return(
       <>
-        <Box>
+        <Box sx={{ flexGrow: 1 }}>
+          <ScanHeaderMessage nic={ this.state.nic } />
         </Box>
         <Box sx={{ flexGrow: 1, pb: 1 }}>
           <Grid container>
