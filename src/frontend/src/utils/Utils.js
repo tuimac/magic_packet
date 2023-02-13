@@ -14,7 +14,7 @@ class Utils {
     let tmp_amount = 0;
 
     for (let i = 3; i >= 0; i--) {
-      let tmp = (int_data >> (i * 8)) - (tmp_amount >> (i * 8));
+      let tmp = (int_data >>> (i * 8)) - (tmp_amount >>> (i * 8));
       result += tmp.toString();
       if (i === 0) {
         break;
